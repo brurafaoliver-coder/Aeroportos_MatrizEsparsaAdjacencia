@@ -2,7 +2,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
+/* William -  aqui estamos criando o grafo de aeroporto
+esse grafo tem a matriz de adjacencia ja colocada nele que tem as funções de
+adicionar aeroporto, adicionar voo, remover voo, listar voos de um aeroporto 
+e listar trajetos entre dois aeroportos.
+*/
 GrafoAeroportos* criar_grafo() {
     GrafoAeroportos *grafo = (GrafoAeroportos*)malloc(sizeof(GrafoAeroportos));
     if (!grafo) return NULL;
@@ -38,7 +42,9 @@ GrafoAeroportos* criar_grafo() {
     
     return grafo;
 }
-
+/* William -aqui nós estamos destruindo o grafo,  esse "destruir"
+seria liberar a memória do grafo, ou seja mesma coisa que free
+*/
 void destruir_grafo(GrafoAeroportos *grafo) {
     if (!grafo) return;
     
@@ -49,7 +55,8 @@ void destruir_grafo(GrafoAeroportos *grafo) {
     free(grafo->aeroportos);
     free(grafo);
 }
-
+// William - aqui usamos o strcmp para comparar o código do aeroporto com o 
+// código que estamos procurando
 int encontrar_indice_aeroporto(GrafoAeroportos *grafo, const char *codigo) {
     for (int i = 0; i < grafo->num_aeroportos; i++) {
         if (strcmp(grafo->aeroportos[i].codigo, codigo) == 0) {
@@ -69,7 +76,7 @@ bool adicionar_aeroporto(GrafoAeroportos *grafo, const char *codigo, const char 
         printf("Aeroporto com código %s já existe.\n", codigo);
         return false;
     }
-    
+    //strncpy é string copy
     strncpy(grafo->aeroportos[grafo->num_aeroportos].codigo, codigo, CODIGO_SIZE - 1);
     grafo->aeroportos[grafo->num_aeroportos].codigo[CODIGO_SIZE - 1] = '\0';
     
@@ -154,7 +161,8 @@ void listar_voos_saida(GrafoAeroportos *grafo, const char *codigo_aeroporto) {
         printf("Nenhum voo saindo deste aeroporto.\n");
     }
 }
-
+// wILLIAM, Aqui temos a função de listar trajetos,usa o grafo para achar o ponto de 
+// origem e destino, e ai encontra o trajeto entre o ponto A e B.
 static void dfs_trajetos(GrafoAeroportos *grafo, int origem, int destino, bool *visitados, int *caminho, int posicao) {
     visitados[origem] = true;
     caminho[posicao] = origem;
