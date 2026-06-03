@@ -25,6 +25,8 @@ int main() {
     
     
     menu(grafo);
+    // aqui exibimos todos os dados que estão no grafo, ou seja, os aeroportos e os voos cadastrados
+    // que são os mesmos que estão na main
     
     destruir_grafo(grafo);
     return 0;

@@ -2,7 +2,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
+/* aqui estamos criando o grafo de aeroporto
+esse grafo tem a matriz de adjacencia ja colocada nele que tem as funções de
+adicionar aeroporto, adicionar voo, remover voo, listar voos de um aeroporto 
+e listar trajetos entre dois aeroportos.
+*/
 GrafoAeroportos* criar_grafo() {
     GrafoAeroportos *grafo = (GrafoAeroportos*)malloc(sizeof(GrafoAeroportos));
     if (!grafo) return NULL;
@@ -38,7 +42,9 @@ GrafoAeroportos* criar_grafo() {
     
     return grafo;
 }
-
+/* aqui nós estamos destruindo o grafo,  esse "destruir"
+seria liberar a memória do grafo, ou seja mesma coisa que free
+*/
 void destruir_grafo(GrafoAeroportos *grafo) {
     if (!grafo) return;
     
@@ -49,7 +55,8 @@ void destruir_grafo(GrafoAeroportos *grafo) {
     free(grafo->aeroportos);
     free(grafo);
 }
-
+// aqui usamos o strcmp para comparar o código do aeroporto com o 
+// código que estamos procurando
 int encontrar_indice_aeroporto(GrafoAeroportos *grafo, const char *codigo) {
     for (int i = 0; i < grafo->num_aeroportos; i++) {
         if (strcmp(grafo->aeroportos[i].codigo, codigo) == 0) {
@@ -58,18 +65,24 @@ int encontrar_indice_aeroporto(GrafoAeroportos *grafo, const char *codigo) {
     }
     return -1;
 }
-
+// aqui adicionamos o aeroporto
+// e nessa função usamos o strncpy para copiar a string do código e da cidade para o aeroporto
+// depois disso, incrementamos o número de aeroportos e imprimimos uma mensagem de sucesso
+// com base no que foi digitado 
 bool adicionar_aeroporto(GrafoAeroportos *grafo, const char *codigo, const char *cidade) {
     if (grafo->num_aeroportos >= grafo->capacidade) {
-        printf("Capacidade máxima de aeroportos atingida.\n");
+        printf("Capacidade maxima de aeroportos atingida.\n");
         return false;
+        // se o num de aeroportos que tem no grafo for menor que a capacidade 
+        // mas aqui só temos a validação de problemas
     }
     
     if (encontrar_indice_aeroporto(grafo, codigo) != -1) {
-        printf("Aeroporto com código %s já existe.\n", codigo);
+        printf("Aeroporto com código %s ja existe.\n", codigo);
         return false;
     }
-    
+    //strncpy é string copy
+    // o código_size é -1 pois precisamos adicionar o nulo no final para evitar bugs
     strncpy(grafo->aeroportos[grafo->num_aeroportos].codigo, codigo, CODIGO_SIZE - 1);
     grafo->aeroportos[grafo->num_aeroportos].codigo[CODIGO_SIZE - 1] = '\0';
     
@@ -86,17 +99,17 @@ bool adicionar_voo(GrafoAeroportos *grafo, const char *origem, const char *desti
     int indice_destino = encontrar_indice_aeroporto(grafo, destino);
     
     if (indice_origem == -1) {
-        printf("Aeroporto de origem %s não encontrado.\n", origem);
+        printf("Aeroporto de origem %s nao encontrado.\n", origem);
         return false;
     }
     
     if (indice_destino == -1) {
-        printf("Aeroporto de destino %s não encontrado.\n", destino);
+        printf("Aeroporto de destino %s nao encontrado.\n", destino);
         return false;
     }
     
     if (grafo->matriz_adjacencia[indice_origem][indice_destino] != 0) {
-        printf("Já existe um voo de %s para %s.\n", origem, destino);
+        printf("Ja existe um voo de %s para %s.\n", origem, destino);
         return false;
     }
     
@@ -110,17 +123,17 @@ bool remover_voo(GrafoAeroportos *grafo, const char *origem, const char *destino
     int indice_destino = encontrar_indice_aeroporto(grafo, destino);
     
     if (indice_origem == -1) {
-        printf("Aeroporto de origem %s não encontrado.\n", origem);
+        printf("Aeroporto de origem %s nao encontrado.\n", origem);
         return false;
     }
     
     if (indice_destino == -1) {
-        printf("Aeroporto de destino %s não encontrado.\n", destino);
+        printf("Aeroporto de destino %s nao encontrado.\n", destino);
         return false;
     }
     
     if (grafo->matriz_adjacencia[indice_origem][indice_destino] != numero_voo) {
-        printf("Voo %d de %s para %s não encontrado.\n", numero_voo, origem, destino);
+        printf("Voo %d de %s para %s nao encontrado.\n", numero_voo, origem, destino);
         return false;
     }
     
@@ -133,7 +146,7 @@ void listar_voos_saida(GrafoAeroportos *grafo, const char *codigo_aeroporto) {
     int indice = encontrar_indice_aeroporto(grafo, codigo_aeroporto);
     
     if (indice == -1) {
-        printf("Aeroporto %s não encontrado.\n", codigo_aeroporto);
+        printf("Aeroporto %s nao encontrado.\n", codigo_aeroporto);
         return;
     }
     
@@ -154,7 +167,10 @@ void listar_voos_saida(GrafoAeroportos *grafo, const char *codigo_aeroporto) {
         printf("Nenhum voo saindo deste aeroporto.\n");
     }
 }
-
+// Aqui temos a função de listar trajetos,usa o grafo para achar o ponto de 
+// origem e destino, e ai encontra o trajeto entre o ponto A e B.
+// dfs é o busca por profundidade, ir até o final e enocontrar o que tiver que encontrar
+// busca recursiva
 static void dfs_trajetos(GrafoAeroportos *grafo, int origem, int destino, bool *visitados, int *caminho, int posicao) {
     visitados[origem] = true;
     caminho[posicao] = origem;
@@ -185,12 +201,12 @@ void listar_trajetos(GrafoAeroportos *grafo, const char *origem, const char *des
     int indice_destino = encontrar_indice_aeroporto(grafo, destino);
     
     if (indice_origem == -1) {
-        printf("Aeroporto de origem %s não encontrado.\n", origem);
+        printf("Aeroporto de origem %s nao encontrado.\n", origem);
         return;
     }
     
     if (indice_destino == -1) {
-        printf("Aeroporto de destino %s não encontrado.\n", destino);
+        printf("Aeroporto de destino %s nao encontrado.\n", destino);
         return;
     }
     
@@ -200,7 +216,7 @@ void listar_trajetos(GrafoAeroportos *grafo, const char *origem, const char *des
     int *caminho = (int*)malloc(grafo->num_aeroportos * sizeof(int));
     
     if (!visitados || !caminho) {
-        printf("Erro de memória.\n");
+        printf("Erro de memoria.\n");
         free(visitados);
         free(caminho);
         return;
