@@ -15,12 +15,12 @@ void menu(GrafoAeroportos *grafo) {
         printf("4. Listar voos que saem de um aeroporto\n");
         printf("5. Listar trajetos entre dois aeroportos\n");
         printf("0. Sair\n");
-        printf("Escolha uma opção: ");
+        printf("Escolha uma opcao: ");
         scanf("%d", &opcao);
         
         switch (opcao) {
             case 1:
-                printf("Código do aeroporto (3 letras): ");
+                printf("Codigo do aeroporto (3 letras): ");
                 scanf("%3s", codigo);
                 printf("Cidade: ");
                 scanf(" %[^\n]", cidade);
@@ -28,35 +28,35 @@ void menu(GrafoAeroportos *grafo) {
                 break;
                 
             case 2:
-                printf("Código do aeroporto de origem: ");
+                printf("Codigo do aeroporto de origem: ");
                 scanf("%3s", origem);
-                printf("Código do aeroporto de destino: ");
+                printf("Codigo do aeroporto de destino: ");
                 scanf("%3s", destino);
-                printf("Número do voo: ");
+                printf("Numero do voo: ");
                 scanf("%d", &numero_voo);
                 adicionar_voo(grafo, origem, destino, numero_voo);
                 break;
                 
             case 3:
-                printf("Código do aeroporto de origem: ");
+                printf("Codigo do aeroporto de origem: ");
                 scanf("%3s", origem);
-                printf("Código do aeroporto de destino: ");
+                printf("Codigo do aeroporto de destino: ");
                 scanf("%3s", destino);
-                printf("Número do voo a ser removido: ");
+                printf("Numero do voo a ser removido: ");
                 scanf("%d", &numero_voo);
                 remover_voo(grafo, origem, destino, numero_voo);
                 break;
                 
             case 4:
-                printf("Código do aeroporto: ");
+                printf("Codigo do aeroporto: ");
                 scanf("%3s", codigo);
                 listar_voos_saida(grafo, codigo);
                 break;
                 
             case 5:
-                printf("Código do aeroporto de origem: ");
+                printf("Codigo do aeroporto de origem: ");
                 scanf("%3s", origem);
-                printf("Código do aeroporto de destino: ");
+                printf("Codigo do aeroporto de destino: ");
                 scanf("%3s", destino);
                 listar_trajetos(grafo, origem, destino);
                 break;
@@ -66,7 +66,7 @@ void menu(GrafoAeroportos *grafo) {
                 break;
                 
             default:
-                printf("Opção inválida.\n");
+                printf("Opcao invalida.\n");
         }
     } while (opcao != 0);
 }

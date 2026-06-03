@@ -61,12 +61,12 @@ int encontrar_indice_aeroporto(GrafoAeroportos *grafo, const char *codigo) {
 
 bool adicionar_aeroporto(GrafoAeroportos *grafo, const char *codigo, const char *cidade) {
     if (grafo->num_aeroportos >= grafo->capacidade) {
-        printf("Capacidade máxima de aeroportos atingida.\n");
+        printf("Capacidade maxima de aeroportos atingida.\n");
         return false;
     }
     
     if (encontrar_indice_aeroporto(grafo, codigo) != -1) {
-        printf("Aeroporto com código %s já existe.\n", codigo);
+        printf("Aeroporto com codigo %s ja existe.\n", codigo);
         return false;
     }
     
@@ -86,17 +86,17 @@ bool adicionar_voo(GrafoAeroportos *grafo, const char *origem, const char *desti
     int indice_destino = encontrar_indice_aeroporto(grafo, destino);
     
     if (indice_origem == -1) {
-        printf("Aeroporto de origem %s não encontrado.\n", origem);
+        printf("Aeroporto de origem %s nao encontrado.\n", origem);
         return false;
     }
     
     if (indice_destino == -1) {
-        printf("Aeroporto de destino %s não encontrado.\n", destino);
+        printf("Aeroporto de destino %s nao encontrado.\n", destino);
         return false;
     }
     
     if (grafo->matriz_adjacencia[indice_origem][indice_destino] != 0) {
-        printf("Já existe um voo de %s para %s.\n", origem, destino);
+        printf("Ja existe um voo de %s para %s.\n", origem, destino);
         return false;
     }
     
@@ -110,17 +110,17 @@ bool remover_voo(GrafoAeroportos *grafo, const char *origem, const char *destino
     int indice_destino = encontrar_indice_aeroporto(grafo, destino);
     
     if (indice_origem == -1) {
-        printf("Aeroporto de origem %s não encontrado.\n", origem);
+        printf("Aeroporto de origem %s nao encontrado.\n", origem);
         return false;
     }
     
     if (indice_destino == -1) {
-        printf("Aeroporto de destino %s não encontrado.\n", destino);
+        printf("Aeroporto de destino %s nao encontrado.\n", destino);
         return false;
     }
     
     if (grafo->matriz_adjacencia[indice_origem][indice_destino] != numero_voo) {
-        printf("Voo %d de %s para %s não encontrado.\n", numero_voo, origem, destino);
+        printf("Voo %d de %s para %s nao encontrado.\n", numero_voo, origem, destino);
         return false;
     }
     
@@ -133,7 +133,7 @@ void listar_voos_saida(GrafoAeroportos *grafo, const char *codigo_aeroporto) {
     int indice = encontrar_indice_aeroporto(grafo, codigo_aeroporto);
     
     if (indice == -1) {
-        printf("Aeroporto %s não encontrado.\n", codigo_aeroporto);
+        printf("Aeroporto %s nao encontrado.\n", codigo_aeroporto);
         return;
     }
     
@@ -185,12 +185,12 @@ void listar_trajetos(GrafoAeroportos *grafo, const char *origem, const char *des
     int indice_destino = encontrar_indice_aeroporto(grafo, destino);
     
     if (indice_origem == -1) {
-        printf("Aeroporto de origem %s não encontrado.\n", origem);
+        printf("Aeroporto de origem %s nao encontrado.\n", origem);
         return;
     }
     
     if (indice_destino == -1) {
-        printf("Aeroporto de destino %s não encontrado.\n", destino);
+        printf("Aeroporto de destino %s nao encontrado.\n", destino);
         return;
     }
     
@@ -200,7 +200,7 @@ void listar_trajetos(GrafoAeroportos *grafo, const char *origem, const char *des
     int *caminho = (int*)malloc(grafo->num_aeroportos * sizeof(int));
     
     if (!visitados || !caminho) {
-        printf("Erro de memória.\n");
+        printf("Erro de memoria.\n");
         free(visitados);
         free(caminho);
         return;
