@@ -1,6 +1,8 @@
 #include "menu.h"
 #include <stdio.h>
-
+ /*aqui estamos criando o menu do programa, que é onde o usuário vai interagir com o programa, 
+ ou seja, ele vai escolher as opções do menu para cadastrar aeroportos, cadastrar voos, remover voos, 
+ listar voos de um aeroporto e listar trajetos entre dois aeroportos*/
 void menu(GrafoAeroportos *grafo) {
     int opcao;
     char codigo[CODIGO_SIZE], cidade[CIDADE_SIZE];
@@ -15,7 +17,7 @@ void menu(GrafoAeroportos *grafo) {
         printf("4. Listar voos que saem de um aeroporto\n");
         printf("5. Listar trajetos entre dois aeroportos\n");
         printf("0. Sair\n");
-        printf("Escolha uma opcaoo: ");
+        printf("Escolha uma opcao: ");
         scanf("%d", &opcao);
         
         switch (opcao) {

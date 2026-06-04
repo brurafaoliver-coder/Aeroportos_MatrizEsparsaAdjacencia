@@ -11,7 +11,8 @@ typedef struct {
     char codigo[CODIGO_SIZE];
     char cidade[CIDADE_SIZE];
 } Aeroporto;
-
+/* Estrutura do grafo de aeroportos, que tem um vetor de aeroportos e uma matriz de adjacencia
+ para representar os voos entre os aeroportos*/
 typedef struct {
     Aeroporto *aeroportos;
     int **matriz_adjacencia;

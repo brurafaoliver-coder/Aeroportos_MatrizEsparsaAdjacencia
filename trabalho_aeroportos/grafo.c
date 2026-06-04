@@ -167,10 +167,9 @@ void listar_voos_saida(GrafoAeroportos *grafo, const char *codigo_aeroporto) {
         printf("Nenhum voo saindo deste aeroporto.\n");
     }
 }
-// Aqui temos a função de listar trajetos,usa o grafo para achar o ponto de 
-// origem e destino, e ai encontra o trajeto entre o ponto A e B.
-// dfs é o busca por profundidade, ir até o final e enocontrar o que tiver que encontrar
-// busca recursiva
+/*Aqui temos a função de listar trajetos,usa o grafo para achar o ponto de origem e destino, e ai 
+encontra o trajeto entre o ponto A e B. dfs é o busca por profundidade, ir até o final e enocontrar 
+o que tiver que encontrar busca recursiva*/
 static void dfs_trajetos(GrafoAeroportos *grafo, int origem, int destino, bool *visitados, int *caminho, int posicao) {
     visitados[origem] = true;
     caminho[posicao] = origem;
@@ -211,7 +210,7 @@ void listar_trajetos(GrafoAeroportos *grafo, const char *origem, const char *des
     }
     
     printf("Trajetos de %s para %s:\n", origem, destino);
-    
+
     bool *visitados = (bool*)calloc(grafo->num_aeroportos, sizeof(bool));
     int *caminho = (int*)malloc(grafo->num_aeroportos * sizeof(int));
     
