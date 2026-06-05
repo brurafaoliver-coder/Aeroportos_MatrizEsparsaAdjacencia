@@ -1,5 +1,35 @@
-Trabalho de Matriz Esparsa + Grafo - Estrutura de Dados II
+# Diário de Desenvolvimento: Estrutura de Grafos para Malha Aérea - Estrutura de Dados II
 
-Material base - https://pt.scribd.com/document/725543218/ACH2024-Aula03-Grafos-ImplementacaoMatrizAdjacencia
+//WILLIAM
+Data: 13/05/2026 - 19:50 às 20:55 (quarta-feira): Inicialização do projeto focando na infraestrutura básica do grafo, em como os dados dos aeroportos devem ser armazenados e as conexões gerenciadas pela matriz. Utilizei uma lógica de alocação de memória para a estrutura principal ( GrafoAeroportos), o vetor dinâmico de aeroportos e a matriz de adjacência baseada em ponteiros de ponteiros ( int). Implementei uma proteção contra vazamento de memória ( memory leak ) usando estruturas de limpeza em cascata caso alguma alocação interna falhe via calloc/malloc.  
 
-algortimo de djikstra
+Data: 16/05/2026 - 17:00 às 22:40 (sábado): Implementei uma rotina de desalocação completa, liberando as linhas da matriz individualmente e, na sequência, limpando a estrutura de aeroportos e o ponteiro raiz do grafo. Criei também, uma função auxiliar interna utilizando strcmp para comparar e mapear uma string de 3 caracteres pelo código IATA (International Air Transport Association ou Associação Internacional de Transportes Aéreos) para o índice interno do vetor, essencial para as operações posteriores.  
+
+Data: 20/05/2026 - 19:00 às 21:00 (quarta-feira): Adicionei verificações para evitar que o limite máximo de capacidade seja estourado e o tratamento com strcmp para evitar a duplicidade de códigos de aeroporto. Utilizei strncpy (string number copy) para garantir a cópia segura das strings de código e da cidade dentro dos limites definidos ( codigo_size e cidade_size). Fiz o mapeamento de voos na matriz de adjacência. A função localiza os índices correspondentes às strings de origem e destino. Foi adicionada uma regra de validaçã que, se os aeroportos não existirem ou se já houver um voo direto cadastrado entre as duas posições na matriz, a operação falha e avisa o usuário, caso contrário, a posição correspondente na matriz recebe o número do voo.  
+
+Data: 27/05/2025 - 19:20 às 21:00 (quarta-feira): Realizei o tratamento de exclusão e visualização básica de caminhos diretos saindo de um vértice. Diferente do modelo padrão que remove o voo apenas por índice, implementei a remoção baseada nos códigos de origem, destino e validação do número do voo fornecido. A posição na matriz de adjacência é limpa (retorna a 0) apenas se o número inserido para idêntico ao registrado, garantindo consistência na manutenção da malha aérea. Varredura em linha na matriz de adjacência. Dado um código de aeroporto de origem, o algoritmo itera por todas as colunas daquela linha específica buscando valores diferentes de zero. O programa imprime o número do voo e os dados do destino (Código e Cidade) associados ao índice da coluna encontrada. Implementação do requisito mais complexo: listar todas as rotas possíveis, diretas ou indiretas, entre dois pontos quaisquer.  
+
+Data: 30/05/2026 - 18:00 às 21:00 (sábado): dfs_trajetos & listar_trajetos ==> Optei por resolver o problema através de busca em profundidade (Depth-First Search - DFS) recursiva. Aloquei dinamicamente um vetor de booleanos (visitados) e um vetor de inteiros (caminho) para rastrear os vértices visitados no escopo da recursão e evitar loops infinitos (ciclos na malha aérea). O algoritmo caminha pela matriz buscando conexões válidas (número do voo -> 0). Quando o vértice de destino é alcançado, o vetor caminho é impresso formatado na tela (ex: CNF => GRU => GIG). Ao retornar na recursão, o vértice é demarcado como visitado para permitir que ele coloque rotas alternativas.
+
+Data: 31/05/2026 - 14:00 às 15:00 (domingo): Usei um laço de repetição do-while mapeado por uma estrutura de seleção switch-case com o objetivo de gerenciar o fluxo do programa de forma contínua até que a opção de saída (0) seja disparada pelo usuário. Para as leituras dos códigos IATA, utilizamos uma máscara de formatação %3s para scanf garantir que o programa limite a captura de 3 caracteres, evitando corrupção de memória. Para a leitura dos nomes de cidades, apliquei a máscara %[^\n]. O espaço inicial descarta quebras de linha remanescentes no buffer do teclado e a expressão regular captura toda a string digitada com espaços inclusive até que a tecla Enter seja pressionada, permitindo cadastros de nomes compostos (ex: "Rio de Janeiro").
+
+BRUNA
+
+Data: 13/05/2026 – 19:50 às 20:55 (quarta-feira): Dediquei este período à modelagem formal do cabeçalho do grafo.h, estabelecendo os tipos e protótipos de funções presentes nos arquivos .h e .c contidos no projeto. Estabeleci as convenções de compilação: #define MAX_AEROPORTOS 50, CODIGO_SIZE 4 (3 caracteres + \0 delimitador) e CIDADE_SIZE 50. Isso impede buffer overflow ao delimitar o tamanho máximo de memória ocupada por strings. Utilizei Struct Aeroporto para fazer a estruturação dos dados do vértice, encapsulando os campos de texto necessários (código IATA e nome da cidade).  
+
+Data: 16/05/2026 - 17:00 às 19:40 (sábado): Utilizei struct GrafoAeroportos para definição do nó descritor da malha aérea. Ela unifica o controle do vetor de vértices (Aeroporto *aeroportos), da matriz de adjacência (int matriz_adjacencia), do contador atual (num_aeroportos) e do limite de expansão (capacidade).  
+
+Data: 17/05/2026 - 20:30 às 00:40 (domingo/segunda): Criação do arquivo menu.h e menu.c (interface). Declarei a função void menu (GrafoAeroportos *grafo). A inclusão "grafo.h" deste arquivo garante a proteção correta com o tipo estruturado abstrato do grafo, permitindo que o menu manipule os dados sem expor a lógica interna dos algoritmos.
+
+Data: 20/05/2026 - 19:00 às 21:00 (quarta-feira):  Realizei a chamada de criar_grafo (), alocando a memória necessária para iniciar as operações. Cadastrei os 5 aeroportos base: Confins (CNF), Brasília (BSB), Galeão (GIG), Salvador (SSA) e Guarulhos (GRU) e o diagrama das rotas e números de voos para serem chamadas na função adicionar_voo:  
+-BSB para SSA (Voo 107).  
+-CNF para GIG (Voo 555), GRU (Voo 101) e SSA (Voo 214).  
+-GIG para CNF (Voo 554) e GRU (Voo 90).  
+-GRU para BSB (Voo 50), CNF (Voo 102) e GIG (Voo 89).  
+-SSA para CNF (Voo 215).  
+
+Data: 27/05/2025 - 19:20 às 21:00 (quarta-feira):  Conectei o gráfico preenchido à função menu (grafo) para permitir a interação do usuário. Por fim, chamei a função destruir_grafo (grafo) imediatamente antes do return 0, garantindo que toda a memória dinâmica alocada pelo programa seja devolvida perfeitamente para o sistema operacional ao encerrar o software. A main ficou responsável por integrar todos os módulos desenvolvidos (Grafo e Menu) e realizar o carregamento automático dos dados propostos pela ANAC.
+
+BRUNA E WILLIAM
+
+Data: 03/06/2026 - 15:00 às 20:40 (quarta-feira): Alimentei o sistema com os dados propostos no diagrama do trabalho: BSB, CNF, GIG, GRU e SSA. Verifiquei o espelhamento exato com a matriz de adjacência visual fornecida (ex: Voo 555 de CNF para GIG). Forcei falhas intencionalmente para validar as mensagens de erro (ex: cadastros de voos contendo aeroportos inexistentes, tentativa de duplicação de códigos de aeroporto e remoções de números de voos incorretos em rotas existentes). Testei a busca por rotas diretas e indiretas interligando múltiplos aeroportos para certificar que o mecanismo de backtracking consegue mapear e imprimir todas as conexões sem entrar em travamentos ou loops de recursão infinitos. Utilizamos duas bibliotecas para corrigir os erros de caracteres especiais

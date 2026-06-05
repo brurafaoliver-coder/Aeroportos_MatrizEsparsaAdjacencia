@@ -2,7 +2,8 @@
 #include <stdlib.h>
 #include "grafo.h"
 #include "menu.h"
-
+/*função principal do programa, onde criamos o grafo de aeroportos, adicionamos alguns aeroportos e voos para teste, 
+e chamamos a função de menu para interagir com o usuário. No final, destruímos o grafo para liberar a memória alocada*/
 int main() {
     GrafoAeroportos *grafo = criar_grafo();
     

@@ -4,14 +4,15 @@
 #include <stdbool.h>
 
 #define MAX_AEROPORTOS 50
-#define CODIGO_SIZE 4
+#define CODIGO_SIZE 4 
 #define CIDADE_SIZE 50
-
+//struct criada para representar um aeroporto, contendo o código do aeroporto e a cidade onde ele está localizado
 typedef struct {
     char codigo[CODIGO_SIZE];
     char cidade[CIDADE_SIZE];
 } Aeroporto;
-
+/*struct criada para representar o grafo de aeroportos, contendo um array de aeroportos, uma matriz de adjacência 
+para representar os voos entre os aeroportos, o número de aeroportos cadastrados e a capacidade máxima do grafo*/
 typedef struct {
     Aeroporto *aeroportos;
     int **matriz_adjacencia;
@@ -19,7 +20,7 @@ typedef struct {
     int capacidade;
 } GrafoAeroportos;
 
-// Protótipos das funções
+//protótipos das funções para manipular o grafo de aeroportos
 GrafoAeroportos* criar_grafo();
 void destruir_grafo(GrafoAeroportos *grafo);
 bool adicionar_aeroporto(GrafoAeroportos *grafo, const char *codigo, const char *cidade);

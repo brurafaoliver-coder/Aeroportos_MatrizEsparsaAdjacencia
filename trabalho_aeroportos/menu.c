@@ -1,6 +1,7 @@
 #include "menu.h"
 #include <stdio.h>
-
+/*menu para interagir com o usuário, onde ele pode escolher as opções de 0 a 5 ficando em loop 
+até que a opção de sair (0) seja escolhida pelo usuário.*/
 void menu(GrafoAeroportos *grafo) {
     int opcao;
     char codigo[CODIGO_SIZE], cidade[CIDADE_SIZE];
@@ -15,7 +16,7 @@ void menu(GrafoAeroportos *grafo) {
         printf("4. Listar voos que saem de um aeroporto\n");
         printf("5. Listar trajetos entre dois aeroportos\n");
         printf("0. Sair\n");
-        printf("Escolha uma opcaoo: ");
+        printf("Escolha uma opcao: ");
         scanf("%d", &opcao);
         
         switch (opcao) {
